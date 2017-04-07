@@ -19,7 +19,7 @@ library(sp)
 library(gstat)
 # packages for manipulation & visualization
 suppressPackageStartupMessages({
-  library(dplyr) # for "glimpse" and "sample_n"
+  library(____BLANK_1____) # for "glimpse" and "sample_n"
   library(ggplot2)
   library(scales) # for "comma"
   library(magrittr)
@@ -27,7 +27,7 @@ suppressPackageStartupMessages({
 
 library(RCurl)
 # Load the data
-JR_elev_2001_30K <- getURL("https://raw.githubusercontent.com/jasonMatney/GIS410510/master/JR_elev_2001_30K.csv")
+JR_elev_2001_30K <- ____BLANK_2____("https://raw.githubusercontent.com/jasonMatney/GIS410510/master/JR_elev_2001_30K.csv")
 JR_elev_2001 <- read.csv(text = JR_elev_2001_30K, col.names=c("x","y","z","id"))[ ,1:3]
 JR_elev_2001 <- sample_n(JR_elev_2001, 1000) # downsample
 
@@ -45,11 +45,11 @@ lzn.fit <- fit.variogram(lzn.vgm, model=vgm(psill=35, model="Exp", range=5)) # f
 plot(lzn.vgm, lzn.fit) 
 
 # Sample spatial domain to interpolate over
-JR_elev_2001_grid = spsample(JR_elev_2001, type = "regular", cellsize = c(10,10)) 
+JR_elev_2001_grid = spsample(JR_elev_2001, type = "regular", cellsize = ____BLANK_3____) 
 gridded(JR_elev_2001_grid) = TRUE
 
 # Create plot of the downscaled data
-plot1 <- JR_elev_2001 %>% as.data.frame %>%
+plot1 <- JR_elev_2001 %>% ____BLANK_4____ %>%
   ggplot(aes(x, y)) + geom_point(size=1) + coord_equal() + 
   ggtitle("Points with measurements")
 
@@ -67,7 +67,7 @@ grid.arrange(plot1, plot2, ncol = 2)
 ptm <- proc.time()
 
 # Perform Ordinary Kriging 
-lzn.kriged <- krige(z ~ 1, JR_elev_2001, JR_elev_2001_grid, model=lzn.fit)
+lzn.kriged <- ____BLANK_5____(z ~ 1, JR_elev_2001, JR_elev_2001_grid, model=lzn.fit)
 
 # Stop the clock!
 proc.time() - ptm
@@ -76,6 +76,6 @@ proc.time() - ptm
 p <- lzn.kriged %>% as.data.frame %>%
   ggplot(aes(x1, x2))
 
-p + geom_point(aes(colour = var1.pred))  + scale_colour_gradient(low = "yellow", high="red") + coord_equal() 
+p + geom_point(aes(colour = var1.pred))  + ____BLANK_6____(low = "yellow", high="red") + coord_equal() 
 
 
